@@ -24,9 +24,19 @@ def get_demo_data2():
     
 def pass_call(query):
     stat_url_root = 'http://api.worldbank.org/v2/'
+    mid_url = 'country/all/indicator/SP.POP.TOTL'
+    req_args = list(query.items())
+    req_args = [arg for arg in req_args if arg[0] != 'path']
     r_format = '&format=json&per_page=1000'
-    print(query)
-    res = requests.get(stat_url_root + query + r_format).text
+    if query.get('path'):
+        mid_url = query.get('path') + '?'
+    else:
+        mid_url += '?'
+    for argument in req_args:
+        arg_string = argument[0] + '=' + argument[1]
+        mid_url += arg_string
+    print(list(query.items()))
+    res = requests.get(stat_url_root + mid_url + r_format).text
 
     return res
 
