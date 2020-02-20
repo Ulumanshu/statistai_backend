@@ -21,12 +21,21 @@ def get_demo_data2():
     res = requests.get(stat_url_root + demo_query + r_format).text
 
     return res
+    
+def pass_call(query):
+    stat_url_root = 'http://api.worldbank.org/v2/'
+    r_format = '&format=json&per_page=1000'
+    print(query)
+    res = requests.get(stat_url_root + query + r_format).text
+
+    return res
 
 @app.route("/statistai_api1/<string:command>")
 def statistai_api1(command):
     commands = {
         'demo': get_demo_data(),
         'demo2': get_demo_data2(),
+        'pass': pass_call(request.args)
     }
     res = commands.get(command)
     resp = flask.make_response(res)
